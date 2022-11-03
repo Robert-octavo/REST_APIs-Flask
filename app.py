@@ -36,7 +36,7 @@ def create_store():
 
 
 @app.post("/item")  # Get the id_store in the payload
-def create_item(name):
+def create_item():
     item_data = request.get_json()
     # check if all elements are included in the payload
     if (
@@ -50,7 +50,7 @@ def create_item(name):
         )
 
     # check if the item already exists
-    for item in item.values():
+    for item in items.values():
         if (
             item_data["name"] == item["name"]
             and item_data["store_id"] == item["store_id"]
@@ -68,7 +68,7 @@ def create_item(name):
     return item, 201
 
 
-@app.post("/store/<string:store_id>")
+@app.get("/store/<string:store_id>")
 def get_store(store_id):
     try:
         return stores[store_id]
@@ -76,7 +76,7 @@ def get_store(store_id):
         abort(404, message="Store not found")
 
 
-@app.post("/item/<string:item_id>")
+@app.get("/item/<string:item_id>")
 def get_item(item_id):
     try:
         return items[item_id]
@@ -90,7 +90,28 @@ def delete_item(item_id):
         del items[item_id]
         return {"message": "Item deleted."}
     except KeyError:
+        abort(404, message="Item not found")
+
+
+@app.delete("/store/<string:store_id>")
+def delete_item(store_id):
+    try:
+        del stores[store_id]
+        return {"message": "Store deleted."}
+    except KeyError:
         abort(404, message="Store not found")
+
+
+@app.put("/item/<string:item_id>")
+def update_item(item_id):
+    item_data = request.get_json()
+    if "price" not in item_data or "name" not in item_data:
+        abort(400, message="Bad request, Ensure the price and name exists in the payload")
+    try:
+        item = items[item_id]
+        item |= item_data  # Update the item dictionay with the info in the item_data
+    except KeyError:
+        abort(404, message="Item not found.")
 
 
 @app.get("/item")
