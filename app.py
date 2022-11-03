@@ -94,7 +94,7 @@ def delete_item(item_id):
 
 
 @app.delete("/store/<string:store_id>")
-def delete_item(store_id):
+def delete_store(store_id):
     try:
         del stores[store_id]
         return {"message": "Store deleted."}
