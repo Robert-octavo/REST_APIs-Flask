@@ -1,4 +1,5 @@
-# Professional REST APIs with:
+# Professional REST APIs with: :snake:
+
 * Python
 * Flask
 * Docker
@@ -8,4 +9,3 @@
 Using Flask and popular extensions such as
 * Flask-Smorest
 * Flask-JWT-Extended
-.
