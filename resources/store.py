@@ -11,6 +11,7 @@ blp = Blueprint("stores", __name__, description="Operations on Stores")
 
 @blp.route("/store/<string:store_id>")
 class Store(MethodView):
+    @blp.response(200, StoreSchema)
     def get(self, store_id):
         try:
             return stores[store_id]
@@ -27,10 +28,12 @@ class Store(MethodView):
 
 @blp.route("/store")
 class StoreList(MethodView):
+    @blp.response(200, StoreSchema)
     def get(self):
-        return {"stores": list(stores.values())}
+        return stores.values()
 
     @blp.arguments(StoreSchema)
+    @blp.response(200, StoreSchema)
     def post(self, store_data):
         # store_data = request.get_json()
         # check if the store exists
