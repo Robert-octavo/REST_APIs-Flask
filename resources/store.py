@@ -15,7 +15,7 @@ blp = Blueprint("stores", __name__, description="Operations on Stores")
 class Store(MethodView):
     @blp.response(200, StoreSchema)
     def get(self, store_id):
-        store = StoreModel.get_or_404(store_id)
+        store = StoreModel.query.get_or_404(store_id)
         return store
         """
         try:
@@ -41,7 +41,7 @@ class Store(MethodView):
 
 @blp.route("/store")
 class StoreList(MethodView):
-    @blp.response(200, StoreSchema)
+    @blp.response(200, StoreSchema(many=True))
     def get(self):
         return StoreModel.query.all()
 
