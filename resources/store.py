@@ -55,7 +55,7 @@ class StoreList(MethodView):
         except IntegrityError:
             abort(400, message="A store with that name already exists.")
         except SQLAlchemyError:
-            abort(500, message="An error ocurred creating the store.")
+            abort(500, message=f"An error ocurred creating the store.{store}")
 
         return store
         """
