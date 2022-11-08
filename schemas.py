@@ -43,3 +43,11 @@ class TagAndItemSchema(Schema):
     message = fields.Str()
     item = fields.Nested(ItemSchema)
     tag = fields.Nested(TagSchema)
+
+
+class UserSchema(Schema):
+    # dump_only - client not send the id to create a new user
+    id = fields.Int(dump_only=True)
+    username = fields.Str(required=True)
+    # Password never send to the client load_only
+    password = fields.Str(required=True, load_only=True)
