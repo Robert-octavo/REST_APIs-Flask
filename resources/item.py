@@ -1,7 +1,7 @@
-import uuid
 from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 from db import db
 from models import ItemModel
 from schemas import ItemSchema, ItemUpdateSchema
@@ -70,6 +70,7 @@ class ItemList(MethodView):
         return ItemModel.query.all()
         # return {"items": list(items.values())}
 
+    @jwt_required()
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
     def post(self, item_data):
